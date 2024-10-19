@@ -19,13 +19,23 @@ body {
     align-items: center;
     background-color: #28a745;
     padding: 1rem;
+
+}
+.logoimg{
+    height: 30px;
+    width: 30px;
+    margin-right: 5px;
+    cursor: pointer;
+   
 }
 
-.logo {
+.logo{
     color: white;
     font-size: 1.5rem;
-    font-weight: 400;
+    font-weight: 500;
+
 }
+
 
 .nav-links {
     list-style: none;
@@ -41,6 +51,10 @@ body {
     color: white;
     text-decoration: none;
     font-weight: 500;
+}
+.nav-links a:hover{
+    color: #c4c4c4;
+    
 }
 .fa-cart-shopping{
     color: white;
@@ -281,6 +295,7 @@ body {
    .card-info {
     padding-top: 10%;
    }
+ 
    
    svg {
     width: 20px;
@@ -410,3 +425,34 @@ body {
     color: white;
     padding-left: 1rem;
  }
+ .product-list {
+    background-color: #6fc383;
+  }
+  .heading {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    color: #28a745;
+}
+.seeMore{
+    height: 1rem;
+    width: 5.5rem;
+    background-color: #ff9900;
+    border: none;
+    border-radius: 0.2rem;
+    margin-left: 82rem;
+   
+
+}
+.seeMoreV{
+    height: 1rem;
+    width: 5.5rem;
+    background-color: #ff9900;
+    border: none;
+    border-radius: 0.2rem;
+    margin-left: 78.5rem;
+   
+
+}
+ 

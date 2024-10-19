@@ -113,29 +113,29 @@
 
 <div class="profile-container">
     <h2>Seller Profile</h2>
-    <form>
+    <form action="/submit-seller" id="formSeller" method="POST" enctype="multipart/form-data">
         <!-- Profile Image -->
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="profileImage">Profile Image</label>
-            <input type="file" id="profileImage" name="profileImage" accept="image/*">
-        </div>
+            <input type="file" id="ProfileImage" name="ProfileImage" accept="image/*">
+        </div> -->
 
         <!-- Name -->
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Enter your name">
+            <input type="text" id="Name" name="Name" placeholder="Enter your name">
         </div>
 
         <!-- Date of Birth -->
         <div class="form-group">
             <label for="dob">Date of Birth</label>
-            <input type="date" id="dob" name="dob">
+            <input type="date" id="DateOfBirth" name="DateOfBirth">
         </div>
 
         <!-- Identity Card Selection -->
         <div class="form-group">
             <label for="identityCard">Select Identity Card</label>
-            <select id="identityCard" name="identityCard">
+            <select id="SelectIdentityCard" name="SelectIdentityCard">
                 <option value="aadhaar">Aadhar Card</option>
                 <option value="pan">PAN Card</option>
                 <option value="ration">Ration Card</option>
@@ -145,31 +145,38 @@
         <!-- Identity Card Number -->
         <div class="form-group">
             <label for="identityNumber">Identity Card Number</label>
-            <input type="text" id="identityNumber" name="identityNumber" placeholder="Enter your identity card number">
+            <input type="number" id="IdentityCardNumber" name="IdentityCardNumber" placeholder="Enter your identity card number">
         </div>
 
-        <!-- Location -->
-        <div class="form-group">
-            <label for="location">Location</label>
-            <input type="text" id="location" name="location" placeholder="Enter your location">
-        </div>
 
         <!-- Address -->
         <div class="form-group">
             <label for="address">Address</label>
-            <input type="text" id="address" name="address" placeholder="Enter your address">
+            <input type="text" id="Address" name="Address" placeholder="Enter your address">
         </div>
 
         <!-- Mobile Number -->
         <div class="form-group">
             <label for="mobile">Mobile Number</label>
-            <input type="tel" id="mobile" name="mobile" placeholder="Enter your mobile number">
+            <input type="number" id="MobileNumber" name="MobileNumber" placeholder="Enter your mobile number">
+        </div>
+
+         <!-- email-->
+         <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" id="Email" name="Email" placeholder="Enter email address">
+        </div>
+
+         <!-- Password-->
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="Password" name="Password" placeholder="Enter password">
         </div>
 
         <!-- Actions (Edit/Delete) -->
         <div class="form-actions">
-            <button type="submit" class="btn-edit">Edit Profile</button>
-            <button type="button" class="btn-delete" onclick="deleteProfile()">Delete Profile</button>
+            <button type="reset" class="btn-delete">Reset</button>
+            <button type="submit" class="btn-edit">Submit</button>
         </div>
     </form>
 </div>
@@ -181,6 +188,31 @@
             alert("Profile deleted!");
         }
     }
+
+    document.getElementById('formSeller').addEventListener('submit', async function (e) {
+        e.preventDefault();  // Prevent the default form submission
+  
+        const Name = document.getElementById('Name').value;
+        const DateOfBirth = document.getElementById('DateOfBirth').value;
+        const SelectIdentityCard = document.getElementById('SelectIdentityCard').value;
+        const IdentityCardNumber = document.getElementById('IdentityCardNumber').value;
+        const Address = document.getElementById('Address').value;
+        const MobileNumber = document.getElementById('MobileNumber').value;
+        const Email = document.getElementById('Email').value;
+        const Password = document.getElementById('Password').value;
+
+  
+        const response = await fetch('/submit-seller', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({Name, DateOfBirth, SelectIdentityCard, IdentityCardNumber, Address, MobileNumber, Email,Password }),
+        });
+  
+        const result = await response.json();
+        alert(result.message);
+      });
 </script>
 
 </body>

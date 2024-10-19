@@ -4,7 +4,99 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Responsive Login Page</title>
-  <link rel="stylesheet" href="login.css">
+  <style>/* General reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #6fc383;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      
+      .container {
+        width: 100%;
+        max-width: 400px;
+        padding: 20px;
+      }
+      
+      .login-box {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      h2 {
+        text-align: center;
+        color: #28a745;
+        margin-bottom: 20px;
+      }
+      
+      .input-group {
+        margin-bottom: 15px;
+      }
+      
+      .input-group label {
+        font-weight: bold;
+        color: #333;
+      }
+      
+      .input-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-top: 5px;
+        transition: all 0.3s ease;
+      }
+      
+      .input-group input:focus {
+        border-color: #28a745;
+      }
+      
+      .btn {
+        background-color: #28a745;
+        color: white;
+        padding: 10px;
+        width: 100%;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      
+      .btn:hover {
+        background-color: #ff9900;
+      }
+      
+      .signup-link {
+        text-align: center;
+        margin-top: 10px;
+        color: #333;
+      }
+      
+      .signup-link a {
+        color: #28a745;
+        text-decoration: none;
+      }
+      
+      .signup-link a:hover {
+        text-decoration: underline;
+      }
+      
+      @media (max-width: 600px) {
+        .login-box {
+          padding: 20px;
+        }
+      }
+      </style>
 </head>
 <body>
   <div class="container">
@@ -26,6 +118,35 @@
       </form>
     </div>
   </div>
-  <script src="script.js"></script>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+      e.preventDefault();  // Prevent the default form submission
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const result = await response.json();
+      //if (result.success) {
+        // Redirect to the welcome page with the user's name in the query params
+      //  window.location.href = `/index.html`;//name=${encodeURIComponent(result.firstName)}`;
+      //} else {
+      //  alert('Login failed: ' + result.message);
+      //}
+      if (result.success) {
+        // Redirect to index.html with the user's first name as a query parameter
+        window.location.href = `/index.html?firstName=${encodeURIComponent(result.firstName)}`;
+      } else {
+        alert('Login failed: ' + result.message);
+      }
+    });
+  </script>
 </body>
 </html>

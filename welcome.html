@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome Page</title>
+</head>
+<body>
+  <h1 id="welcomeMessage"></h1>
+
+  <script>
+    // Extract the 'name' query parameter from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get('name');
+
+    // Display the welcome message with the user's name
+    document.getElementById('welcomeMessage').textContent = `Welcome, ${name}!`;
+  </script>
+</body>
+</html>
