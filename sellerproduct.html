@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard</title>
+    <link rel="stylesheet" href="sellerproduct.css">
+</head>
+<body>
+
+<header>
+    <h1>Seller Dashboard - Add Your Products</h1>
+</header>
+
+<div class="container">
+    <h2>Add a New Product</h2>
+    <form id="productForm">
+        <input type="text" id="productName" placeholder="Product Name" required>
+        <textarea id="productDescription" placeholder="Product Description" required></textarea>
+        <input type="number" id="productPrice" placeholder="Product Price (₹)" required>
+        <select id="productCategory" required>
+            <option value="" disabled selected>Select Category</option>
+            <option value="Vegetable">Vegetable</option>
+            <option value="Fruits">Fruits</option>
+            <option value="Cereals">Cereals</option>
+            <option value="Grain">Grain</option>
+        </select>
+        <input type="file" id="productImage" accept="image/*" required>
+        <button type="button" onclick="addProduct()">Add Product</button>
+    </form>
+
+    <h2>Product List</h2>
+    <div class="product-list" id="productList"></div>
+</div>
+
+<script > document.addEventListener("DOMContentLoaded", () => {
+    displayProducts();
+});
+
+function addProduct() {
+    const name = document.getElementById("productName").value;
+    const description = document.getElementById("productDescription").value;
+    const price = document.getElementById("productPrice").value;
+    const category = document.getElementById("productCategory").value;
+    const image = document.getElementById("productImage").files[0];
+
+    if (!name || !description || !price || !category || !image) {
+        alert("Please fill all fields and upload an image.");
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const productImage = e.target.result;
+        const product = { name, description, price, category, image: productImage };
+
+        let products = JSON.parse(localStorage.getItem("products")) || [];
+
+        // Check if product exists (by name and category)
+        const existingProductIndex = products.findIndex(p => p.name === name && p.category === category);
+
+        if (existingProductIndex > -1) {
+            // Update the existing product
+            products[existingProductIndex] = product;
+            alert("Product updated successfully!");
+        } else {
+            // Add new product
+            products.push(product);
+            alert("Product added successfully!");
+        }
+
+        // Save to localStorage
+        localStorage.setItem("products", JSON.stringify(products));
+
+        // Clear form
+        document.getElementById("productForm").reset();
+
+        // Display updated products
+        displayProducts();
+    };
+
+    reader.readAsDataURL(image);
+}
+
+function displayProducts() {
+    const productList = document.getElementById("productList");
+    productList.innerHTML = "";
+
+    let products = JSON.parse(localStorage.getItem("products")) || [];
+
+    products.forEach((product, index) => {
+        const productItem = document.createElement("div");
+        productItem.classList.add("product-item");
+
+        productItem.innerHTML = `
+            <div class="product-details">
+                <img src="${product.image}" alt="${product.name}">
+                <div>
+                    <h4>${product.name}</h4>
+                    <p>Price: ₹${product.price}</p>
+                    <p>Category: ${product.category}</p>
+                    <p>${product.description}</p>
+                </div>
+            </div>
+            <div>
+                <button class="edit" onclick="editProduct(${index})">Edit</button>
+                <button class="delete" onclick="deleteProduct(${index})">Delete</button>
+            </div>
+        `;
+
+        productList.appendChild(productItem);
+    });
+}
+
+function editProduct(index) {
+    let products = JSON.parse(localStorage.getItem("products")) || [];
+    const product = products[index];
+
+    document.getElementById("productName").value = product.name;
+    document.getElementById("productDescription").value = product.description;
+    document.getElementById("productPrice").value = product.price;
+    document.getElementById("productCategory").value = product.category;
+}
+
+function deleteProduct(index) {
+    if (confirm("Are you sure you want to delete this product?")) {
+        let products = JSON.parse(localStorage.getItem("products")) || [];
+        products.splice(index, 1);
+        localStorage.setItem("products", JSON.stringify(products));
+        displayProducts();
+    }
+}
+</script>
+
+</body>
+</html>
